@@ -28,30 +28,32 @@ cd ip-eye
 Install dependencies:
 
 pip install -r requirements.txt
+```
 Usage
+
 Run directly:
 
 python ip_eye.py
 If installed via setup.py:
 
-ip-eye
+``` ip-eye
 Menu
-Track IP
+1. Track IP
 
-Port Scan
+2. Port Scan
 
-DNS Lookup
+3. DNS Lookup
 
-Reverse DNS
+4. Reverse DNS
 
-WHOIS Lookup
+5. WHOIS Lookup
 
-Shodan Search
+6. Shodan Search
 
-Set API Key
+7. Set API Key
 
-Exit
-
+0. Exit
+```
 Configuration
 API keys are stored in config.json.
 
