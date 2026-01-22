@@ -53,6 +53,7 @@ class IPEye:
             json.dump(self.api_keys, f, indent=4)
 
     def ip_info(self, ip):
+        ip = ip.strip()
         print(f"{Fore.YELLOW}[*] Tracking IP: {ip}")
         try:
             socket.inet_aton(ip)
@@ -62,6 +63,7 @@ class IPEye:
 
         r = requests.get(f"https://ipinfo.io/{ip}/json", timeout=10)
         if r.status_code != 200:
+            print(f"{Fore.RED}[!] Request failed")
             return None
 
         data = r.json()
@@ -75,6 +77,7 @@ class IPEye:
         return data
 
     def port_scan(self, ip, start=1, end=100):
+        ip = ip.strip()
         print(f"{Fore.YELLOW}[*] Port scan {start}-{end}")
         open_ports = []
 
@@ -105,6 +108,7 @@ class IPEye:
         return open_ports
 
     def dns_lookup(self, domain):
+        domain = domain.strip()
         print(f"{Fore.YELLOW}[*] DNS lookup {domain}")
         for rtype in ["A", "AAAA", "MX", "NS", "TXT", "CNAME"]:
             try:
@@ -116,6 +120,7 @@ class IPEye:
                 pass
 
     def reverse_dns(self, ip):
+        ip = ip.strip()
         try:
             host = socket.gethostbyaddr(ip)
             print(f"{Fore.GREEN}[+] Hostname: {host[0]}")
@@ -125,6 +130,7 @@ class IPEye:
             return None
 
     def whois_lookup(self, target):
+        target = target.strip()
         try:
             w = whois.whois(target)
             print(w)
@@ -132,6 +138,7 @@ class IPEye:
             print(f"{Fore.RED}[-] WHOIS failed: {e}")
 
     def shodan_search(self, query):
+        query = query.strip()
         if not self.api_keys.get("shodan"):
             print(f"{Fore.RED}[!] Shodan key not set")
             return
@@ -146,6 +153,7 @@ class IPEye:
             print(f"{Fore.RED}[-] Shodan error: {e}")
 
     def report(self, ip, data, ports):
+        ip = ip.strip()
         name = f"ip_eye_report_{ip}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
         with open(name, "w") as f:
             f.write("IP EYE REPORT\n")
@@ -174,34 +182,34 @@ class IPEye:
         while True:
             self.banner()
             self.menu()
-            c = input("ip-eye > ")
+            c = input("ip-eye > ").strip()
 
             if c == "1":
-                ip = input("IP: ")
+                ip = input("IP: ").strip()
                 self.ip_info(ip)
                 input()
             elif c == "2":
-                ip = input("IP: ")
+                ip = input("IP: ").strip()
                 self.port_scan(ip)
                 input()
             elif c == "3":
-                d = input("Domain: ")
+                d = input("Domain: ").strip()
                 self.dns_lookup(d)
                 input()
             elif c == "4":
-                ip = input("IP: ")
+                ip = input("IP: ").strip()
                 self.reverse_dns(ip)
                 input()
             elif c == "5":
-                t = input("Target: ")
+                t = input("Target: ").strip()
                 self.whois_lookup(t)
                 input()
             elif c == "6":
-                q = input("Query: ")
+                q = input("Query: ").strip()
                 self.shodan_search(q)
                 input()
             elif c == "7":
-                k = input("Shodan API key: ")
+                k = input("Shodan API key: ").strip()
                 self.api_keys["shodan"] = k
                 self.save_keys()
             elif c == "0":
